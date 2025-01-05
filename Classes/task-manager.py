@@ -4,7 +4,7 @@ import time
 
 class TaskManager:
 
-    def __init__(self,task_name,description,due_date,priority,status):
+    def __init__(self,task_name,description="None",due_date="Today",priority="Priority 4",status="Not Started"):
 
         self.file_path = "Database\\task-records.csv"
         self.task_name = task_name
@@ -34,12 +34,22 @@ class TaskManager:
         task_priority = input("Task priority: ")
         task_status = input("Task status: ")
 
-        task_data = [["Task", "Task-Description", "Task-Due-Date", "Task-Priority", "Task-Status"]]
+        self.task_name = task_name
+        self.description = task_description
+        self.due_date = task_due_date
+        self.priority = task_priority
+        self.status = task_status
+
+        tasks_data = [{"Task":self.task_name, "Task-Description":self.description, "Task-Due-Date":self.due_date, "Task-Priority":self.priority, "Task-Status":self.status}]
 
         try:
             with open(self.file_path, mode="w") as file:
-                
-                csv_writer = csv.DictWriter(file)
+
+                field_names = ["Task", "Task-Description", "Task-Due-Date", "Task-Priority", "Task-Status"]
+                csv_writer = csv.DictWriter(file, fieldnames=field_names)
+
+                csv_writer.writeheader()
+                csv_writer.writerows(tasks_data)
 
         except FileNotFoundError:
             print("File not found error!")
