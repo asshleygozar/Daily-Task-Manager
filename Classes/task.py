@@ -1,7 +1,8 @@
+from task_manager import TaskManager
 
 class Task():
 
-    def action():
+    def action(self):
 
         while True:
 
@@ -19,7 +20,7 @@ class Task():
                 match user_input:
 
                     case 1:
-                        pass
+                        TaskManager.add_tasks(self)
                     case 2:
                         pass
                     case 3:
@@ -35,4 +36,5 @@ class Task():
 
                 print("Integer number only!")
 
-    
+task = Task()
+task.action()
