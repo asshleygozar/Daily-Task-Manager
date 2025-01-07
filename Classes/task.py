@@ -22,13 +22,13 @@ class Task():
                     case 1:
                         TaskManager.add_tasks(self)
                     case 2:
-                        pass
+                        TaskManager.view_tasks(self)
                     case 3:
                         pass
                     case 4:
                         pass
                     case 5:
-                        pass
+                        break
                     case _:
                         print("Invalid Input!")
 
