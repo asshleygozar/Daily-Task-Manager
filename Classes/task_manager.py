@@ -4,7 +4,7 @@ import time
 
 class TaskManager:
 
-    def __init__(self,task_name,description="None",due_date="Today",priority="Priority 4",status="Not Started"):
+    def __init__(self,task_name="",description="None",due_date="Today",priority="Priority 4",status="Not Started"):
 
         self.file_path = "Database\\task-records.csv"
         self.task_name = task_name
@@ -12,7 +12,8 @@ class TaskManager:
         self.due_date = due_date
         self.priority = priority
         self.status = status
-        self.load_file = TaskManager.load_tasks()
+        self.load_file = TaskManager.load_tasks(self)
+   
 
     def load_tasks(self):
 
@@ -43,10 +44,9 @@ class TaskManager:
         tasks_data = [{"Task":self.task_name, "Task-Description":self.description, "Task-Due-Date":self.due_date, "Task-Priority":self.priority, "Task-Status":self.status}]
 
         try:
-            with open("Database\\task-records.csv", mode="w") as file:
+            with open("Database\\task-records.csv", mode="a", newline='') as file:
 
-                field_names = ["Task", "Task-Description", "Task-Due-Date", "Task-Priority", "Task-Status"]
-                csv_writer = csv.DictWriter(file, fieldnames=field_names)
+                csv_writer = csv.DictWriter(file)
 
                 csv_writer.writeheader()
                 csv_writer.writerows(tasks_data)
@@ -57,7 +57,19 @@ class TaskManager:
     
 
     def view_tasks(self):
-        pass
+
+        try:
+            with open("Database\\task-records.csv", mode='r') as file:
+
+                csv_reader = csv.DictReader(file)
+                for task in csv_reader:
+                    print(task)
+
+        except FileNotFoundError:
+
+            print("File not found error!")
+            csv_reader = []
+    
 
     def update_tasks_status():
         pass
@@ -67,3 +79,7 @@ class TaskManager:
 
     def filter_by_priority():
         pass
+
+task = TaskManager()
+
+task.view_tasks()
