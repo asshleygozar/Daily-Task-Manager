@@ -65,12 +65,16 @@ class TaskManager:
 
     def view_tasks(self):
 
+        print("Task | Task-Description | Task-Due-Date | Task-Priority | Task-Status")
+        
         try:
             with open(TaskManager.database(), mode='r') as file:
 
                 csv_reader = csv.DictReader(file)
+
                 for task in csv_reader:
-                    print(task)
+
+                    print(f"{task["Task"]} | {task["Task-Description"]} | {task["Task-Due-Date"]} | {task["Task-Priority"]} | {task["Task-Status"]}")
 
         except FileNotFoundError:
 
