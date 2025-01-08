@@ -79,11 +79,37 @@ class TaskManager:
         except FileNotFoundError:
 
             print("File not found error!")
+
             csv_reader = []
     
 
     def update_tasks_status():
-        pass
+            
+        task_name = input("Enter task name")
+
+        try:
+            with open(TaskManager.database(), mode='r') as file:
+
+                csv_reader = csv.DictReader(file)
+
+                for task in csv_reader:
+
+                    if task_name != task["Task"]:
+
+                        print("Task name does not exists!")
+                    
+                    else:
+
+                        user_status_update = input("Enter updated status")
+
+                        task["Task-Status"] = user_status_update
+
+        except FileNotFoundError:
+
+            print("File not found!")
+
+            csv_reader = []
+         
 
     def filter_by_due_date():
         pass
