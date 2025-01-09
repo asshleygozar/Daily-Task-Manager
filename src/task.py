@@ -29,7 +29,7 @@ class Task():
 
                     case 3:
 
-                        pass
+                        TaskManager.update_tasks_status(self)
 
                     case 4:
 
