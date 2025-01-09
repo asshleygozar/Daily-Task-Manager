@@ -24,6 +24,7 @@ class TaskManager:
     def load_tasks(self):
 
         try:
+
             with open(TaskManager.database(), mode='r') as file:
                 csv_reader = csv.DictReader(file)
                 
@@ -69,40 +70,72 @@ class TaskManager:
         
         try:
             with open(TaskManager.database(), mode='r') as file:
-
                 csv_reader = csv.DictReader(file)
 
                 for task in csv_reader:
-
                     print(f"{task["Task"]} | {task["Task-Description"]} | {task["Task-Due-Date"]} | {task["Task-Priority"]} | {task["Task-Status"]}")
 
         except FileNotFoundError:
 
             print("File not found error!")
-
             csv_reader = []
     
 
     def update_tasks_status():
             
-        task_name = input("Enter task name")
+        task_name = input("Enter task name: ")
 
         try:
-            with open(TaskManager.database(), mode='r') as file:
-
-                csv_reader = csv.DictReader(file)
+            with open(TaskManager.database(), mode='r') as fileReader:
+                csv_reader = csv.DictReader(fileReader)
 
                 for task in csv_reader:
 
                     if task_name != task["Task"]:
-
                         print("Task name does not exists!")
-                    
+
                     else:
 
-                        user_status_update = input("Enter updated status")
+                        user_status_update = input("Enter updated status: ")
+                        tasks_data = [{"Task": task["Task"], "Task-Description":task["Task-Description"], "Task-Due-Date":task["Task-Due-Date"], "Task-Priority":task["Task-Priority"], "Task-Status":user_status_update}]
+                        updated_data = []
+                        updated_data.append(tasks_data)
 
-                        task["Task-Status"] = user_status_update
+                        try:
+
+                            with open(TaskManager.database(), mode='r') as read:
+                                csv_read = csv.DictReader(read)
+
+                                for row in csv_read:
+
+                                    if row["Task"] == task_name:
+
+                                        row["Task"] = ""
+
+                                    updated_data.append(row)     
+
+                        except FileNotFoundError:
+                            print("File not found error!")
+                            csv_read = []
+
+                        try:
+                            with open(TaskManager.database(), mode="a", newline='') as fileWriter:
+
+                                field_names = ["Task", "Task-Description", "Task-Due-Date", "Task-Priority", "Task-Status"]
+                                file_header_exists = os.path.isfile(TaskManager.database())
+                                csv_writer = csv.DictWriter(fileWriter, fieldnames = field_names)
+                                
+                                if not file_header_exists or os.stat(TaskManager.database()).st_size == 0:
+                                    csv_writer.writeheader()
+
+                                csv_writer.writerows(updated_data)
+
+                        except FileNotFoundError:
+
+                            print("File not found error!")
+                            csv_reader = []
+
+                    break
 
         except FileNotFoundError:
 
