@@ -83,7 +83,47 @@ class TaskManager:
     
 
     def update_tasks_status():
-        pass
+        
+        task_name = input("Enter task name: ")
+
+        updated_data = []
+        try:
+            with open(TaskManager.database(), mode='r') as fileReader:
+
+                csv_reader = csv.DictReader(fileReader)
+
+            for task in csv_reader:
+
+                if task["Task"] != task_name:
+                    updated_data.append(task)
+
+                if task["Task"] == task_name:
+                    temporary_data = [{"Task":task["Task"], "Task-Description":task["Task-Description"], "Task-Due-Date":task["Task-Due-Date"], "Task-Priority":task["Task-Priority"], "Task-Status":task_name}]
+                    updated_data.append(temporary_data)
+
+        except FileNotFoundError:
+
+            print("File not found error!")
+            csv_reader = []
+
+        try:
+            with open(TaskManager.database(), mode="a", newline='') as file:
+
+                field_names = ["Task", "Task-Description", "Task-Due-Date", "Task-Priority", "Task-Status"]
+                file_header_exists = os.path.isfile(TaskManager.database())
+
+                csv_writer = csv.DictWriter(file, fieldnames = field_names)
+                
+                if not file_header_exists or os.stat(TaskManager.database()).st_size == 0:
+
+                    csv_writer.writeheader()
+
+                csv_writer.writerows(updated_data)
+
+        except FileNotFoundError:
+            
+            print("File not found error!")
+            csv_writer = []
 
     def filter_by_due_date():
         pass
