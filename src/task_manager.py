@@ -1,25 +1,17 @@
 import csv
-import os
 import time
 
+class TaskManager():
 
-class TaskManager:
-
-    def __init__(self,task_name="",description="None",due_date="Today",priority="Priority 4",status="Not Started"):
-
-        self.task_name = task_name
+    def __init__(self, task, description="None", priority="Low", deadline="Now"):
+        self.task = task
         self.description = description
-        self.due_date = due_date
         self.priority = priority
-        self.status = status
-        self.load_file = TaskManager.load_tasks(self)
-   
-    def database():
-
-        __file_path = "Database\\task-records.csv"
-
-        return __file_path
+        self.deadline = deadline
+        self.number = 0
+        self.file_path = "G:\\Daily-Task-Manager\\Database\\task-records.csv"
         
+<<<<<<< HEAD
 
     def load_tasks(self):
 
@@ -62,12 +54,18 @@ class TaskManager:
             
             print("File not found error!")
             csv_writer = []
+=======
+    def __str__(self):
+        return f"{self.task} | {self.description} | {self.priority} | {self.deadline}"
+>>>>>>> testing-branch
     
-
-    def view_tasks(self):
-
-        print("Task | Task-Description | Task-Due-Date | Task-Priority | Task-Status")
+    def add_task(self):
+        self.task = input("Enter task name: ")
+        self.description = input("Enter task description")
+        self.priority = input("Enter task priority level: ")
+        self.deadline = input("Enter task deadline (MM/DD/YYYY): ")
         
+<<<<<<< HEAD
         try:
             with open(TaskManager.database(), mode='r') as file:
                 csv_reader = csv.DictReader(file)
@@ -149,4 +147,19 @@ class TaskManager:
 
     def filter_by_priority():
         pass
+=======
+        task_number = self.number =+ 1
+        task_data = [{task_number:
+                       {"Task":self.task,
+                        "Description":self.description,
+                        "Priority":self.priority,
+                        "Deadline":self.deadline
+                        }}]
+
+        with open(self.file_path, mode='w', newline='') as file:
+            writer = csv.write(file)
+
+
+
+>>>>>>> testing-branch
 
