@@ -33,7 +33,8 @@ class Task():
                         break
                     case 4:
 
-                        pass
+                        TaskManager.delete_task()
+                        break
 
                     case 5:
 
