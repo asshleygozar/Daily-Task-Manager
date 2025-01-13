@@ -18,11 +18,10 @@ class TaskManager():
 
     def date_time(input_time):
         strip_time = input_time.strip("/")
-        hours = int(strip_time[0])
-        minute = int(strip_time[1])
-        seconds = 0
+        hours = int(f"{strip_time[0]}{strip_time[1]}")
+        minute = int(f"{strip_time[3]}{strip_time[4]}")
     
-        formatted_time = str(time(hours,minute,seconds))
+        formatted_time = str(time(hours,minute))
 
         return str(formatted_time)
     
