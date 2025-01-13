@@ -1,6 +1,7 @@
 # Daily Task Manager using Python
 ## Features
-- Add Tasks
+- Add Task
 - Update Task's status 
-- Filter task's by priority
-- Filter task's by due date
+- Delete Task
+- With Notification
+- Comes with CSV file as File based system
