@@ -11,7 +11,7 @@ class Task():
                 print("Choose your action")
                 print("1. Add Task")
                 print("2. View Task")
-                print("3. Update Task")
+                print("3. Update Task Details")
                 print("4. Delete Task")
                 print("5. Exit")
 
@@ -25,12 +25,12 @@ class Task():
                         break
                     case 2:
 
-                        TaskManager.view_tasks(self)
-
+                        TaskManager.view_tasks()
+                        break
                     case 3:
 
-                        TaskManager.update_tasks_status()
-
+                        TaskManager.update_task_details(self)
+                        break
                     case 4:
 
                         pass
