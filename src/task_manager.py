@@ -1,5 +1,7 @@
 from datetime import time
+from datetime import datetime
 from plyer import notification
+from time import sleep
 import csv
 import sys
 import os
@@ -24,17 +26,34 @@ class TaskManager():
         minute = int(f"{strip_time[3]}{strip_time[4]}")
     
         formatted_time = str(time(hours,minute))
-
         return str(formatted_time)
     
     def task_notification(task_title,task_description):
          notification.notify(
              title = task_title,
              message = task_description,
-             message = "Due now",
              app_name ="My Daily Task Manager",
              timeout = 10
          )
+
+    def notification_timer():
+
+        now = datetime.now()
+        try:
+            with open(TaskManager.data_file_path(), "r") as read_dates:
+                date_reader = csv.DictReader(read_dates)
+                rows = list(date_reader)
+                for date in rows:
+                    check_hour, check_minute,check_second = map(int,date["Deadline"].split(":"))
+                    target_time = now.replace(hour=check_hour,minute=check_minute,second=check_second,microsecond=0)
+                    if target_time >= now:
+                        TaskManager.task_notification(date["Task"],date["Description"])
+                        break
+                    
+                    sleep(1)
+
+        except FileNotFoundError:
+            print("File not found!")
 
     def add_task(self):
 
@@ -66,6 +85,7 @@ class TaskManager():
         print("Task added successfully!")
 
     def view_tasks():
+     
         try:
             with open(TaskManager.data_file_path(),mode="r") as read:
                 csv_reader = csv.reader(read)
@@ -75,7 +95,7 @@ class TaskManager():
             print("File not found!")
 
     def update_row(self,task_name, description,priority,status_update, deadline):
-     
+       
         updated_details = {"Task":task_name,"Description":description,"Priority":priority,"Status":status_update,"Deadline":deadline}
         try:
             with open(TaskManager.data_file_path(),mode="r") as read_task:
@@ -98,7 +118,9 @@ class TaskManager():
         
 
     def update_task_details(self):
+
         task_name = input("Enter task here: ")
+
         try:
             with open(TaskManager.data_file_path(),mode="r") as read_task:
                 csv_reader = csv.DictReader(read_task)
@@ -118,6 +140,7 @@ class TaskManager():
             print("File not found!")
 
     def delete_task():
+
         task_name = input("Enter task here: ")
 
         try:
@@ -142,6 +165,9 @@ class TaskManager():
                 
         except FileNotFoundError:
             print("File not found!")
+
+    if __name__ == "__main__":
+        notification_timer()
 
 
 
