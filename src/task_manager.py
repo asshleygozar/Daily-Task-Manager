@@ -9,9 +9,6 @@ class TaskManager():
         self.description = description
         self.priority = priority
         self.deadline = deadline
-        
-    def __str__(self):
-        return f"{self.task} | {self.description} | {self.priority} | {self.deadline}"
     
     def data_file_path():
         __file_path = "G:\\Daily-Task-Manager\\Database\\task-records.csv"
@@ -37,6 +34,16 @@ class TaskManager():
 
             writer.writeheader()
             writer.writerow(task_data)
+
+    def view_tasks(self):
+        try:
+            with open(TaskManager.data_file_path(),mode="r") as read:
+                csv_reader = csv.reader(read)
+                for row in csv_reader:
+                    print(row)
+        except FileNotFoundError:
+            print("File not found!")
+
 
 
 
