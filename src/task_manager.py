@@ -1,5 +1,6 @@
 from datetime import time
 import csv
+import sys
 import os
 
 
@@ -86,20 +87,47 @@ class TaskManager():
 
     def update_task_details(self):
         task_name = input("Enter task here: ")
-
         try:
             with open(TaskManager.data_file_path(),mode="r") as read_task:
                 csv_reader = csv.DictReader(read_task)
-                for task in csv_reader:
+                checker = list(csv_reader)
+                for task in checker:
                     if task["Task"] != task_name:
                         print("Task does not exists")
+                        sys.exit(0)
+                    else:
+                       updated_description = input("Updated description: ")
+                       updated_priority = input("Updated priority: ")
+                       updated_status = input("Updated status: ")
+                       updated_deadline = input("Updated deadline: ")
+                       TaskManager.update_row(self,task_name,updated_description,updated_priority,updated_status,updated_deadline)   
 
-            updated_description = input("Updated description: ")
-            updated_priority = input("Updated priority: ")
-            updated_status = input("Updated status: ")
-            updated_deadline = input("Updated deadline: ")
-            TaskManager.update_row(self,task_name,updated_description,updated_priority,updated_status,updated_deadline)
+        except FileNotFoundError:
+            print("File not found!")
 
+    def delete_task():
+        task_name = input("Enter task here: ")
+
+        try:
+            with open(TaskManager.data_file_path(),mode="r") as read_file:
+                read_file = csv.DictReader(read_file)
+                rows = list(read_file)
+                filter_rows = [row for row in rows if row["Task"] != task_name]
+
+                for task in rows:
+                    if task["Task"] == task_name:
+                        with open(TaskManager.data_file_path(), mode='w') as write_update:
+                            field_names = ["Task","Description","Priority","Status", "Deadline"]
+                            csv_delete = csv.DictWriter(write_update,fieldnames=field_names)
+                            csv_delete.writeheader()
+                            csv_delete.writerows(filter_rows)
+
+                        print("Task deleted successfully")
+                        break
+                    if task["Task"] != task_name:
+                        print("Task does not exists!")
+                        break
+                
         except FileNotFoundError:
             print("File not found!")
 
