@@ -3,7 +3,7 @@ from task_manager import TaskManager
 class Task():
 
     def action(self):
-
+        TaskManager.notification_timer()
         while True:
 
             try:
@@ -14,7 +14,7 @@ class Task():
                 print("3. Update Task Details")
                 print("4. Delete Task")
                 print("5. Exit")
-
+                
                 user_input = int(input("Enter your choice: "))
 
                 match user_input:
@@ -47,6 +47,8 @@ class Task():
             except ValueError:
 
                 print("Integer number only!")
+        
 
 task = Task()
 task.action()
+
