@@ -1,4 +1,5 @@
 from datetime import time
+from plyer import notification
 import csv
 import sys
 import os
@@ -26,6 +27,15 @@ class TaskManager():
 
         return str(formatted_time)
     
+    def task_notification(task_title,task_description):
+         notification.notify(
+             title = task_title,
+             message = task_description,
+             message = "Due now",
+             app_name ="My Daily Task Manager",
+             timeout = 10
+         )
+
     def add_task(self):
 
         self.task = input("Enter task name: ")
@@ -52,6 +62,8 @@ class TaskManager():
             if not file_exists or os.stat(TaskManager.data_file_path()).st_size == 0:
                 writer.writeheader()
             writer.writerow(task_data)
+        TaskManager.task_notification(self.task, self.description)
+        print("Task added successfully!")
 
     def view_tasks():
         try:
