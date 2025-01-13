@@ -1,6 +1,7 @@
+from datetime import time
 import csv
 import os
-import time
+
 
 class TaskManager():
 
@@ -14,6 +15,16 @@ class TaskManager():
     def data_file_path():
         __file_path = "G:\\Daily-Task-Manager\\Database\\task-records.csv"
         return __file_path
+
+    def date_time(input_time):
+        strip_time = input_time.strip("/")
+        hours = int(strip_time[0])
+        minute = int(strip_time[1])
+        seconds = 0
+    
+        formatted_time = str(time(hours,minute,seconds))
+
+        return str(formatted_time)
     
     def add_task(self):
 
@@ -21,14 +32,16 @@ class TaskManager():
         self.description = input("Enter task description: ")
         self.priority = input("Enter task priority level: ")
         self.status = input("Enter status: ")
-        self.deadline = input("Enter task deadline (MM/DD/YYYY): ")
+        self.deadline = input("Enter task time deadline (HH/MM): ")
+
+        formatted_deadline = TaskManager.date_time(self.deadline)
         
         task_data = {   
                      "Task":self.task,
                      "Description":self.description,
                      "Priority":self.priority,
                      "Status":self.status,
-                     "Deadline":self.deadline
+                     "Deadline":formatted_deadline
                         }
 
         with open(TaskManager.data_file_path(), mode='a', newline='') as file:
