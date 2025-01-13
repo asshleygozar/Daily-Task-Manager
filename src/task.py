@@ -21,8 +21,8 @@ class Task():
 
                     case 1:
 
-                        TaskManager.add_tasks(self)
-
+                        TaskManager.add_task(self)
+                        break
                     case 2:
 
                         TaskManager.view_tasks(self)
